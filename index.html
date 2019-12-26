@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JS終極密碼</title>
+    <style>
+    .card{
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    #reset_button{
+        /* display: none; */
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.5s;
+    }
+    #reset_button.show{
+        opacity: 1;
+        pointer-events: all;
+        transition: 0.5s;
+    }
+
+    
+    </style>
+</head>
+
+<body>
+    <div class="card">
+    <h1>終極密碼(0~100)</h1>
+    <p id="text">請在框格內數入數字，再按下送出</p>
+    <input id="user_guess_number" type="number" min="0"  max="100"> 
+
+    <button id="button">送出</button>
+    <button id="reset_button">重新開始遊戲</button>
+    </div>
+    
+    <script>
+        var answer_number = Math.floor(Math.random() * 101);
+        var user_guess_number;
+        var guess_round = 1 ;
+        console.log("答案是:",answer_number);
+        var message = document.querySelector("#text")
+        var start_number = 0 ;
+        var end_number = 100;
+        var reset_button =document.querySelector("#reset_button");
+
+        button.onclick = function(){
+
+            user_guess_number = parseInt(document.querySelector("#user_guess_number").value);
+
+            console.log(user_guess_number);        
+
+            if (answer_number === user_guess_number) {
+                // message.textContent = "Bingo! 共猜了"+guess_round+"次"; //這個也可以
+                message.textContent = `Correct! 共猜了${guess_round}次`;
+                reset_button.classList.add("show");
+                console.log("Correct");
+            } else if(user_guess_number > answer_number){
+                end_number = user_guess_number;
+                message.textContent = `錯囉! 你猜的太大了 ,範圍: ${start_number} ~ ${end_number} `;
+                console.log("錯囉! 太大")
+                
+                guess_round++;
+            } else {
+                start_number = user_guess_number;
+                message.textContent = `錯囉! 你猜的太小了 ,範圍: ${start_number} - ${end_number} `;
+                console.log("猜錯囉! 太小");
+                
+                guess_round++;
+            }
+        }
+        reset_button.onclick = function(){
+            // 重新開始
+            answer_number = Math.floor(Math.random() *101);
+            console.log("新的答案是",answer_number);
+
+            message.textContent = "重新開始遊戲";
+            guess_round = 1;
+            start_number = 0;
+            end_number = 100;
+
+            document.querySelector("#user_guess_number").value = "";
+            reset_button.classList.remove("show");
+        }
+    </script>
+</body>
+</html>
